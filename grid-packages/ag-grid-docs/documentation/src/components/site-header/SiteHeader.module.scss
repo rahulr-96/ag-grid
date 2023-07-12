@@ -216,6 +216,10 @@
     }
 }
 
+.github-item {
+    order: 2;
+}
+
 .github-item a {
     display: inline-block;
     position: relative;
@@ -244,7 +248,7 @@
 
         svg {
             position: relative;
-            top: 2px;
+            top: 5px;
             left: 0;
             transition: box-shadow 0.25s ease-in-out;
         }
