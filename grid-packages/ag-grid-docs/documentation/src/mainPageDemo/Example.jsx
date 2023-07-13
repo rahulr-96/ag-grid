@@ -24,6 +24,7 @@ import { StatusBarModule } from '@ag-grid-enterprise/status-bar';
 import classnames from 'classnames';
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import LocalStorage from '../utils/local-storage';
 import { booleanValues, colNames, countries, COUNTRY_CODES, firstNames, games, lastNames, months } from './consts';
 import { CountryFloatingFilterComponent } from './CountryFloatingFilterComponent';
 import styles from './Example.module.scss';
@@ -609,7 +610,12 @@ const Example = () => {
     const [gridTheme, setGridTheme] = useState(null);
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const theme = params.get('theme') || 'ag-theme-alpine';
+        const theme =
+            params.get('theme') ||
+            (JSON.parse(LocalStorage.get('context')).colorMode === 'light'
+                ? 'ag-theme-alpine'
+                : 'ag-theme-alpine-dark');
+
         setGridTheme(theme);
     }, []);
     const [base64Flags, setBase64Flags] = useState();
