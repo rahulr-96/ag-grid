@@ -295,7 +295,7 @@ const Changelog = ({ location }) => {
                     </div>
 
                     <GlobalContextConsumer>
-                        {({ colorMode }) => {
+                        {({ darkMode }) => {
                             return (
                                 <Grid
                                     gridHeight={'70.5vh'}
@@ -310,7 +310,7 @@ const Changelog = ({ location }) => {
                                     isRowMaster={isRowMaster}
                                     masterDetail
                                     onGridReady={gridReady}
-                                    theme={colorMode === 'light' ? 'ag-theme-alpine' : 'ag-theme-alpine-dark'}
+                                    theme={darkMode ? 'ag-theme-alpine-dark' : 'ag-theme-alpine'}
                                 ></Grid>
                             );
                         }}
