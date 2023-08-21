@@ -2,7 +2,7 @@ import { AgInputTextField } from '../../../widgets/agInputTextField';
 import { Component } from '../../../widgets/component';
 import { IDateComp, IDateParams } from '../../../rendering/dateComponent';
 import { RefSelector } from '../../../widgets/componentAnnotations';
-import { serialiseDate, parseDateTimeFromString } from '../../../utils/date';
+import { serialiseDate, parseDateTimeFromString, dateToFormattedString } from '../../../utils/date';
 import { getSafariVersion, isBrowserChrome, isBrowserFirefox, isBrowserSafari } from '../../../utils/browser';
 import { IAfterGuiAttachedParams } from '../../../interfaces/iAfterGuiAttachedParams';
 
@@ -57,12 +57,33 @@ export class DefaultDateComponent extends Component implements IDateComp {
 
         inputElement.type = shouldUseBrowserDatePicker ? 'date' : 'text';
 
-        const { minValidYear, maxValidYear } = params.filterParams || {};
-        if (minValidYear) {
-            inputElement.min = `${minValidYear}-01-01`;
+        const {
+            minValidYear,
+            maxValidYear,
+            minValidDate,
+            maxValidDate,
+        } = params.filterParams || {};
+
+        if (minValidDate) {
+            const minDateValue = minValidDate instanceof Date ? minValidDate : parseDateTimeFromString(minValidDate);
+            if (minDateValue) {
+                inputElement.min = dateToFormattedString(minDateValue);
+            }
+        } else {
+            if (minValidYear) {
+                inputElement.min = `${minValidYear}-01-01`;
+            }
         }
-        if (maxValidYear) {
-            inputElement.max = `${maxValidYear}-12-31`;
+
+        if (maxValidDate) {
+            const maxDateValue = maxValidDate instanceof Date ? maxValidDate : parseDateTimeFromString(maxValidDate);
+            if (maxDateValue) {
+                inputElement.max = dateToFormattedString(maxDateValue);
+            }
+        } else {
+            if (maxValidYear) {
+                inputElement.max = `${maxValidYear}-12-31`;
+            }
         }
     }
 
